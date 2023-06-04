@@ -1,13 +1,22 @@
-import { player1 } from "./Player.js";
+import { player } from "./Player.js";
+import { room } from "./ganeration.js";
+import { physics } from "./physics.js";
 
+let canv
 function setup() {
-    createCanvas(800, 800);
-    player1.setup()
+    canv = createCanvas(1200, 800, 'pixelated x2');
+    player.setup()
+    room.setup()
 }
   
 function draw() {
     clear();
-    player1.update()
+    background(0)
+    canv.width = window.innerWidth
+    canv.height = window.innerHeight
+    physics();
+    room.draw()
+    player.update()
 }
 
 window.setup = setup

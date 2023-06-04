@@ -1,34 +1,37 @@
 class Player{
-    constructor(x,y,keys){
-        this.img = ""
+    constructor(img,position,size,keys){
+        this.img = img
         this.keys = keys
-        this.velocityX = 0
-        this.speed = 2
+        this.position = position
+        this.size = size
+        this.velocity = {
+            x: 0,
+            y: 1
+        }
+        this.speed = 5
         this.flip = false
-        this.x = x
-        this.y = y
         this.sprite = "";
     }
     setup(){
-        this.img = loadImage('./img/player.png');
+        this.img = loadImage(this.img);
     }
     draw(){
-        image(this.img, this.x, this.y, 70, 188, 0, 0, 70, 188)
-        if (player1.flip) {
+        image(this.img, this.position.x, this.position.y, this.size.w, this.size.h, 0, -1, 70, 188)
+        if (this.flip) {
             push();
             scale(-1,1);
-            image(this.img, this.x*-1, this.y, 70*-1, 188, 0, 0, 70, 188)
+            image(this.img, this.position.x*-1, this.position.y, this.size.w*-1, this.size.h, 0, -1, 70, 188)
             pop(); 
         }
         
     }
     update(){
         this.draw()
-        this.x += this.velocityX*this.speed
+        this.position.x += this.velocity.x*this.speed
     }
 }
 
-export var player1 = new Player(0,10, ['a','w','s', 'd'])
+export var player = new Player('./img/player.png',{x:0,y:10},{w:70,h:188}, ['a','w','s', 'd'])
 
 var keyState = {};    
 addEventListener('keydown',function(e){
@@ -36,22 +39,22 @@ addEventListener('keydown',function(e){
 },true);    
 addEventListener('keyup',function(e){
     keyState[e.key] = false;
-    player1.velocityX=0;
+    player.velocity.x=0;
 },true);
 
 function gameLoop() {
-    if (keyState[player1.keys[0]] || keyState[player1.keys[0].toUpperCase()]){ 
-        player1.velocityX=-1;
-        player1.flip = true
+    if (keyState[player.keys[0]] || keyState[player.keys[0].toUpperCase()]){ 
+        player.velocity.x=-1;
+        player.flip = true
     }
 
-    if (keyState["w"] || keyState["W"] || keyState["ц"] || keyState["Ц"]){
-
+    if (keyState[player.keys[1]] || keyState[player.keys[1].toUpperCase()]){
+        // player.velocity.y = -5
     }
 
-    if (keyState[player1.keys[3]] || keyState[player1.keys[3].toUpperCase()]){
-        player1.velocityX=1;
-        player1.flip = false
+    if (keyState[player.keys[3]] || keyState[player.keys[3].toUpperCase()]){
+        player.velocity.x=1;
+        player.flip = false
     }
     // redraw/reposition your object here
     // also redraw/animate any objects not controlled by the user
