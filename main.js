@@ -1,2 +1,2 @@
-import './render.js'
-import './code.js'
+import './scripts/render.js'
+import './scripts/utils.js'
