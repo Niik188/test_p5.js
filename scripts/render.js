@@ -12,7 +12,7 @@ function setup() {
         room.setup()
     });
 }
-  
+
 function draw() {
     clear();
     background(0)
@@ -29,3 +29,4 @@ function draw() {
 
 window.setup = setup
 window.draw = draw
+window.keyTyped = keyTyped

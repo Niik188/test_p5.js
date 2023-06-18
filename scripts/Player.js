@@ -1,4 +1,4 @@
-import { collis } from "./collision.js";
+import { collis, collisGround } from "./collision.js";
 import { rooms } from "./ganeration.js";
 
 class Player{
@@ -37,8 +37,9 @@ class Player{
         this.collision()
     }
     collision(){
+        var objects = 
         rooms.forEach(room => {
-            if (collis(this,room.ground)) {
+            if (collisGround(this,room.ground)) {
             if (this.velocity.y > 0) {
                 player.velocity.y = 0
                 player.position.y = room.ground.y - this.size.h - 0.01
@@ -47,7 +48,9 @@ class Player{
             room.objects.forEach(object => {
                 if (collis(this,object)) {
                     if (this.use) {
+                        player.use = false
                         console.log("hi")
+                        
                     }
                 }
             })
@@ -56,8 +59,14 @@ class Player{
     }
 }
 
-
 export var player = new Player('./img/player.png',{x:0,y:10},{w:70,h:188}, ['a','w','s', 'd'])
+
+addEventListener('keypress', (e)=>{
+    console.log("h")
+    if (e.key == 'g') {
+        player.use = true
+    }
+})
 
 var keyState = {};    
 addEventListener('keydown',function(e){
@@ -81,10 +90,6 @@ function gameLoop() {
     if (keyState[player.keys[3]] || keyState[player.keys[3].toUpperCase()]){
         player.velocity.x=1;
         player.flip = false
-    }
-
-    if (keyState['g']){
-        player.use = true
     }
     // redraw/reposition your object here
     // also redraw/animate any objects not controlled by the user
